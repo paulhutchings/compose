@@ -1,0 +1,35 @@
+version: '3.4'
+services:
+  handbrake:
+    image: jlesage/handbrake:latest
+    build: .
+    environment:
+      TZ=America/New_York
+      UMASK=000
+    ports:
+      - "5800:5800"
+    volumes:
+      - "handbrake_data:/config:rw"
+      - "downloads:/storage:rw"
+      - "media:/output:rw"
+    devices: 
+      - '/dev/dri:dev/dri'
+      - 'dev/sr0:/dev/sr0'
+      
+volumes:
+  handbrake_data:
+    name: 'handbrake_data'
+  downloads:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=download,password=$CIFS_PWD,uid=6000,gid=6000"
+      device: "//10.0.1.9/downloads"
+    name: "downloads"
+  media:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: username=plex,password=$CIFS_PWD,uid=6000,gid=6000
+      device: "//10.0.1.9/media"
+    name: 'media'

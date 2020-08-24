@@ -1,0 +1,65 @@
+version: '3.4'
+
+services:
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    depends_on:
+      - wordpress-db
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: $WP_DB_PWD
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress:/var/www/html
+
+  wordpress-db:
+    image: mysql:5.7
+    container_name: wordpress-db
+    restart: unless-stopped
+    command: ['mysqld', '--character-set-server=utf8', '--collation-server=utf8_unicode_ci']
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: $WP_DB_PWD
+      MYSQL_ROOT_PASSWORD: $WP_DB_ROOT_PWD
+    volumes:
+      - wp-db:/var/lib/mysql
+
+  adminer:
+    depends_on:
+       - wordpress-db
+    container_name: adminer
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: wordpress-db
+    ports:
+      - 8080:8080
+      
+  wordpress-cli:
+    depends_on: 
+      - wordpress
+      - wordpress-db
+    user: xfs
+    container_name: wordpress-cli
+    image: wordpress:cli
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: $WP_DB_PWD
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress:/var/www/html
+    
+
+volumes:
+  wordpress:
+    name: 'wordpress'
+  wp-db:
+    name: 'wordpress_db'

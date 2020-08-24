@@ -1,0 +1,24 @@
+version: "3.4"
+  services:
+    chrome:
+      container_name: chrome
+      image: dorowu/ubuntu-desktop-lxde-vnc:focal-lxqt
+      ports:
+        - 6080:80
+      environment:
+        RESOLUTION: '1280x720'
+      volumes:
+        - downloads:/root/Downloads
+        - chrome_data:/root
+        - /dev/shm:/dev/shm
+
+volumes:
+  chrome_data:
+    name: 'chrome_data'
+  downloads:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=download,password=$CIFS_PWD,uid=6000,gid=6000"
+      device: "//10.0.1.9/downloads"
+    name: "downloads"

@@ -1,0 +1,32 @@
+version: "3.4"
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - WEBUI_PORT=8081
+      - UMASK=000
+    volumes:
+      - qbittorrent_data:/config
+      - downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8081:8081
+    restart: unless-stopped
+    dns: 1.1.1.1
+
+volumes:
+  downloads:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=download,password=$CIFS_PWD,uid=6000,gid=6000"
+      device: "//10.0.1.9/downloads"
+    name: "downloads"
+  qbittorrent_data:
+    name: 'qbittorrent_data'
+    

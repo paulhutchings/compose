@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker:latest
+    restart: unless-stopped
+    ports:
+      - '32400:32400/tcp'
+      - '32469:32469/tcp'
+      - '1900:1900/udp'
+      - '32410:32410/udp'
+      - '32412:32412/udp'
+      - '32413:32413/udp'
+      - '32414:32414/udp'
+    environment:
+      - TZ=America/New_York
+      - PLEX_CLAIM=$PLEX_CLAIM
+    volumes:
+      - 'plex_config:/config'
+      - 'plex_media:/media'
+    tmpfs: /transcode
+    
+volumes:
+  plex_config:
+    name: 'plex_config'
+  plex_media:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: username=plex,password=$CIFS_PWD,uid=6000,gid=6000
+      device: "//10.0.1.9/media"
+    name: 'media'
