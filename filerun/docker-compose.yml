@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   db:
+    container_name: filerun_db
     image: mariadb:10.1
     environment:
       MYSQL_ROOT_PASSWORD: $SQL_ROOT_PWD
@@ -12,6 +13,7 @@ services:
       - filerun_db:/var/lib/mysql
 
   web:
+    container_name: filerun
     image: afian/filerun:latest
     environment:
       FR_DB_HOST: db
@@ -41,5 +43,5 @@ volumes:
     driver: local
     driver_opts:
       type: cifs
-      o: username=admin,password=$ADMIN_PWD,uid=5033, gid=5033
+      o: username=admin,password=$ADMIN_PWD,uid=5033,gid=5033
       device: //10.0.1.9/storage_root
