@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
@@ -11,7 +11,7 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
     environment:
-      TZ: 'America/New York'
+      TZ: 'America/New_York'
       DNS1: 1.1.1.1
       DNS2: 'no'
       DNSSEC: 'true'
@@ -30,5 +30,7 @@ services:
       - 127.0.0.1
 
 volumes:
-    etc-pihole:
-    etc-dnsmasq.d:
+  etc-pihole:
+    name: 'etc-pihole'
+  etc-dnsmasq.d:
+    name: 'etc-dnsmasq.d'

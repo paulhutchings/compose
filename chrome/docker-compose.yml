@@ -7,6 +7,7 @@ version: "3.4"
         - 6080:80
       environment:
         RESOLUTION: '1280x720'
+      dns: 1.1.1.1
       volumes:
         - downloads:/root/Downloads
         - chrome_data:/root
