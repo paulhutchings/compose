@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    ports:
+      - "8088:80"
+    volumes:
+      - storage_root:/srv
+      
+volumes:
+  storage_root:
+    name: freenas_storage_root
+    driver: local
+    driver_opts:
+      type: cifs
+      o: username=admin,password=$ADMIN_PWD,uid=5033, gid=5033
+      device: //10.0.1.9/storage_root
