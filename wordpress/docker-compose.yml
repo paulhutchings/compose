@@ -59,6 +59,11 @@ services:
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - wordpress:/var/www/html
+    command: >
+      /bin/bash -c '
+      sleep 10;
+      wp core install --path="/var/www/html" --url="studiop.page" --title="StudioP" --admin_user=admin --admin_password=$$WP_ADMIN_PWD --admin_email=servers@studiop.page
+      '
     
 
 volumes:
