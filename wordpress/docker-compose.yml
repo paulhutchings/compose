@@ -15,6 +15,8 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: $WP_DB_PWD
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_TABLE_PREFIX: "wp_"
+      WORDPRESS_DEBUG: 1
     volumes:
       - wordpress:/var/www/html
 
@@ -49,6 +51,7 @@ services:
     user: xfs
     container_name: wordpress-cli
     image: wordpress:cli
+    restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: wordpress-db
       WORDPRESS_DB_USER: wordpress
