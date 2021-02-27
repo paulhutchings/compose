@@ -26,7 +26,7 @@ volumes:
   plex_media:
     driver: local
     driver_opts:
-      type: cifs
-      o: username=plex,password=$CIFS_PWD,uid=6000,gid=6000
-      device: "//10.0.1.9/media"
+      type: nfs
+      o: addr=10.0.1.9,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      device: ":/mnt/storage/media"
     name: 'media'

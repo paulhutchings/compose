@@ -24,7 +24,7 @@ volumes:
     driver: local
     driver_opts:
       type: "cifs"
-      o: "username=download,password=$CIFS_PWD,uid=6000,gid=6000"
+      o: "username=docker,password=$CIFS_PWD,uid=6000,gid=6000"
       device: "//10.0.1.9/downloads"
     name: "downloads"
   qbittorrent_data:

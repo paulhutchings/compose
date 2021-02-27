@@ -14,6 +14,6 @@ volumes:
     name: freenas_storage_root
     driver: local
     driver_opts:
-      type: cifs
-      o: username=admin,password=$ADMIN_PWD,uid=5000,gid=5000
-      device: //10.0.1.9/storage_root
+      type: nfs
+      o: addr=10.0.1.9,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      device: :/mnt/storage
