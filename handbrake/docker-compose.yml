@@ -2,6 +2,7 @@ version: '3.4'
 services:
   handbrake:
     image: jlesage/handbrake:latest
+    container_name: handbrake
     build: .
     environment:
       TZ: America/New_York
