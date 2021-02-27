@@ -4,8 +4,8 @@ services:
     image: jlesage/handbrake:latest
     build: .
     environment:
-      TZ=America/New_York
-      UMASK=000
+      TZ: America/New_York
+      UMASK: 000
     ports:
       - "5800:5800"
     volumes:
