@@ -19,6 +19,7 @@ services:
       WORDPRESS_DEBUG: 1
     volumes:
       - wordpress:/var/www/html
+      - wp-export:/mnt/wp_export
 
   wordpress-db:
     image: mysql:5.7
@@ -44,30 +45,25 @@ services:
     ports:
       - 8080:8080
       
-  wordpress-cli:
-    depends_on: 
-      - wordpress
-      - wordpress-db
-    user: xfs
-    container_name: wordpress-cli
-    image: wordpress:cli
-    restart: unless-stopped
-    environment:
-      WORDPRESS_DB_HOST: wordpress-db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: $WP_DB_PWD
-      WORDPRESS_DB_NAME: wordpress
-    volumes:
-      - wordpress:/var/www/html
-    command: >
-      /bin/bash -c '
-      sleep 10;
-      wp core install --path="/var/www/html" --url="studiop.page" --title="StudioP" --admin_user=admin --admin_password=$$WP_ADMIN_PWD --admin_email=servers@studiop.page
-      '
-    
+  # wordpress-cli:
+  #   depends_on: 
+  #     - wordpress
+  #     - wordpress-db
+  #   user: xfs
+  #   container_name: wordpress-cli
+  #   image: wordpress:cli
+  #   environment:
+  #     WORDPRESS_DB_HOST: wordpress-db
+  #     WORDPRESS_DB_USER: wordpress
+  #     WORDPRESS_DB_PASSWORD: $WP_DB_PWD
+  #     WORDPRESS_DB_NAME: wordpress
+  #   volumes:
+  #     - wordpress:/var/www/html
 
 volumes:
   wordpress:
     name: 'wordpress'
   wp-db:
     name: 'wordpress_db'
+  wp-export:
+    name: 'wordpress-export'
