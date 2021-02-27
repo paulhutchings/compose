@@ -66,4 +66,4 @@ volumes:
   wp-db:
     name: 'wordpress_db'
   wp-export:
-    name: 'wordpress-export'
+    name: 'wordpress_export'
