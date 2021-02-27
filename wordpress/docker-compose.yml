@@ -8,6 +8,7 @@ services:
     depends_on:
       - wordpress-db
     restart: unless-stopped
+    entrypoint: bash -c "chown -R www-data:www-data /mnt/wp_export && docker-entrypoint.sh apache2-foreground"
     ports:
       - 80:80
     environment:
@@ -67,5 +68,3 @@ volumes:
     name: 'wordpress_db'
   wp-export:
     name: 'wordpress_export'
-    driver_opts:
-      o: uid=33,gid=33
