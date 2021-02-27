@@ -6,6 +6,9 @@ services:
     environment:
       TZ: America/New_York
       UMASK: 000
+      USER_ID: 6000
+      GROUP_ID: 6000
+      SECURE_CONNECTION: 1
     ports:
       - "5800:5800"
     volumes:
@@ -23,13 +26,13 @@ volumes:
     driver: local
     driver_opts:
       type: "cifs"
-      o: "username=download,password=$CIFS_PWD,uid=6000,gid=6000"
+      o: "username=docker,password=$CIFS_PWD,uid=6000,gid=6000"
       device: "//10.0.1.9/downloads"
     name: "downloads"
   media:
     driver: local
     driver_opts:
-      type: cifs
-      o: username=plex,password=$CIFS_PWD,uid=6000,gid=6000
-      device: "//10.0.1.9/media"
+      type: nfs
+      o: addr=10.0.1.9,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      device: ":/mnt/storage/media"
     name: 'media'
