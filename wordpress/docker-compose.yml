@@ -67,3 +67,5 @@ volumes:
     name: 'wordpress_db'
   wp-export:
     name: 'wordpress_export'
+    driver_opts:
+      o: uid=33,gid=33
