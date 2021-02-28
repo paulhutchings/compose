@@ -17,8 +17,8 @@ services:
       - "downloads:/storage:rw"
       - "media:/output:rw"
     devices: 
-      - '/dev/dri:dev/dri'
-      - 'dev/sr0:/dev/sr0'
+      - '/dev/dri:/dev/dri'
+      - '/dev/sr0:/dev/sr0'
       
 volumes:
   handbrake_data:
