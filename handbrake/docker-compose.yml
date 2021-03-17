@@ -23,6 +23,7 @@ services:
     devices: 
       - '/dev/dri:/dev/dri'
 #      - '/dev/sr0:/dev/sr0'
+    restart: unless-stopped
       
 volumes:
   handbrake_config:
