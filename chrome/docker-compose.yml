@@ -7,10 +7,12 @@ services:
       - 6080:80
     environment:
       RESOLUTION: '1280x720'
+      USER: chrome
+      PASSWORD: ${CHROME_PWD?err}
     dns: 1.1.1.1
     volumes:
-      - downloads:/root/Downloads
-      - chrome_data:/root
+      - downloads:/home/chrome/Downloads
+      - chrome_data:/home/chrome
       - /dev/shm:/dev/shm
 
 volumes:
@@ -20,6 +22,6 @@ volumes:
     driver: local
     driver_opts:
       type: "cifs"
-      o: "username=docker,password=$CIFS_PWD,uid=6000,gid=6000"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//10.0.1.9/downloads"
     name: "downloads"

@@ -16,18 +16,22 @@ services:
       - "handbrake_data:/config:rw"
       - "downloads:/storage:rw"
       - "media:/output:rw"
+    tmpfs: /watch
+    group_add:
+      - ${VIDEO_GROUP?err}
+      - ${RENDER_GROUP?err}
     devices: 
       - '/dev/dri:/dev/dri'
-      - '/dev/sr0:/dev/sr0'
+#      - '/dev/sr0:/dev/sr0'
       
 volumes:
-  handbrake_data:
-    name: 'handbrake_data'
+  handbrake_config:
+    name: 'handbrake_config'
   downloads:
     driver: local
     driver_opts:
       type: "cifs"
-      o: "username=docker,password=$CIFS_PWD,uid=6000,gid=6000"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//10.0.1.9/downloads"
     name: "downloads"
   media:

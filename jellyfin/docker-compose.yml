@@ -1,0 +1,29 @@
+version: "3.4"
+services:
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - jellyfin_config:/config:rw
+      - media:/data:rw
+    group_add:
+      - ${VIDEO_GROUP?err}
+      - ${RENDER_GROUP?err}
+    ports:
+      - 8096:8096
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
+
+volumes:
+  jellyfin_config:
+    name: 'jellyfin_config'
+  media:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.0.1.9,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      device: ":/mnt/storage/media"
+    name: 'media'

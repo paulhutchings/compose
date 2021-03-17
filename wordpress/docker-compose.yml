@@ -14,7 +14,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: wordpress-db
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: $WP_DB_PWD
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PWD?err}
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_TABLE_PREFIX: "wp_"
       WORDPRESS_DEBUG: 1
@@ -30,8 +30,8 @@ services:
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: $WP_DB_PWD
-      MYSQL_ROOT_PASSWORD: $WP_DB_ROOT_PWD
+      MYSQL_PASSWORD: ${WP_DB_PWD?err}
+      MYSQL_ROOT_PASSWORD: ${WP_DB_ROOT_PWD?err}
     volumes:
       - wp-db:/var/lib/mysql
 
