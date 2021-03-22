@@ -35,6 +35,7 @@ volumes:
     
 networks:
   pve1-ubuntu-vlan:
+    name: pve1-ubuntu-vlan
     driver: ipvlan
     driver_opts:
       parent: ${INTERFACE?err}
