@@ -31,6 +31,6 @@ services:
 
 volumes:
   etc-pihole:
-    name: 'etc-pihole'
+    name: 'pihole_etc-pihole'
   etc-dnsmasq.d:
-    name: 'etc-dnsmasq.d'
+    name: 'pihole_etc-dnsmasq.d'
