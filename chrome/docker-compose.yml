@@ -15,6 +15,9 @@ services:
       - chrome_data:/home/chrome
       - /dev/shm:/dev/shm
     restart: unless-stopped
+    networks:
+      pve1-ubuntu-vlan:
+        ipv4_address: 10.0.1.32
 
 volumes:
   chrome_data:
@@ -26,3 +29,13 @@ volumes:
       o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//10.0.1.2/downloads"
     name: "downloads"
+
+networks:
+  pve1-ubuntu-vlan:
+    driver: ipvlan
+    driver_opts:
+      parent: ${INTERFACE?err}
+      ipvlan_mode: l2
+    ipam:
+      config:
+        - subnet: '10.0.1.0/24'
