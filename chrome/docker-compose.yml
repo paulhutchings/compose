@@ -1,4 +1,4 @@
-version: "3.4"
+version: "2.4"
 services:
   chrome:
     container_name: chrome
@@ -40,3 +40,5 @@ networks:
     ipam:
       config:
         - subnet: '10.0.1.0/16'
+          ip_range: '10.0.1.0/16'
+          gateway: '10.0.1.1'

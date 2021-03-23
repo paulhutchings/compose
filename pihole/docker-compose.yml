@@ -1,4 +1,4 @@
-version: "3.4"
+version: "2.4"
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
@@ -49,3 +49,5 @@ networks:
     ipam:
       config:
         - subnet: '10.0.1.0/16'
+          ip_range: '10.0.1.0/16'
+          gateway: '10.0.1.1'
