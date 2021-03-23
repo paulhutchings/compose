@@ -11,11 +11,15 @@ services:
     group_add:
       - ${VIDEO_GROUP?err}
       - ${RENDER_GROUP?err}
-    ports:
-      - 9696:8096
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
+    networks:
+      - 'apps_studiop_page'
+
+networks:
+  apps_studiop_page:
+    name: 'apps.studiop.page'
 
 volumes:
   jellyfin_config:
