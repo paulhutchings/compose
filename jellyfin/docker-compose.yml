@@ -6,7 +6,10 @@ services:
     ports:
       - 9696:8096
     environment:
-      - TZ=America/New_York
+      TZ: America/New_York
+      VIRTUAL_HOST: ${VIRTUAL_HOST?err}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST?err}
+      VIRTUAL_PORT: 9696
     volumes:
       - jellyfin_config:/config:rw
       - media:/data:rw
