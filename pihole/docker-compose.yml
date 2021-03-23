@@ -19,11 +19,14 @@ services:
       IPv6: 'false'
       DNSMASQ_USER: pihole
       WEBPASSWORD: ${PIHOLE_PWD?err}
+      SERVER_IP: 10.0.1.31
     # Volumes store your data between container upgrades
     volumes:
       - 'etc-pihole:/etc/pihole/'
       - 'etc-dnsmasq.d:/etc/dnsmasq.d/'
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     dns:
       - 127.0.0.1
     networks:
