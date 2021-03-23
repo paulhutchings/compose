@@ -27,7 +27,7 @@ services:
       - "/run/docker.sock:/var/run/docker.sock:ro"
     environment:
       NGINX_PROXY_CONTAINER: "nginx-reverse-proxy"
-      DEFAULT_EMAIL: "info+servers@studiop.page"
+      DEFAULT_EMAIL: ${EMAIL?err}
     restart: unless-stopped
     depends_on:
       - "nginx-reverse-proxy"
