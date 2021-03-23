@@ -19,19 +19,19 @@ services:
       IPv6: 'false'
       DNSMASQ_USER: pihole
       WEBPASSWORD: ${PIHOLE_PWD?err}
-      SERVER_IP: 10.0.3.3
+      #SERVER_IP: 10.0.3.3
     # Volumes store your data between container upgrades
     volumes:
       - 'etc-pihole:/etc/pihole/'
       - 'etc-dnsmasq.d:/etc/dnsmasq.d/'
     restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
+    # cap_add:
+    #   - NET_ADMIN
     dns:
       - 127.0.0.1
-    networks:
-      pve1-ubuntu-vlan:
-        ipv4_address: 10.0.3.3
+    # networks:
+    #   pve1-ubuntu-vlan:
+    #     ipv4_address: 10.0.3.3
 
 volumes:
   etc-pihole:
@@ -39,15 +39,15 @@ volumes:
   etc-dnsmasq.d:
     name: 'pihole_etc-dnsmasq.d'
 
-networks:
-  pve1-ubuntu-vlan:
-    name: pve1-ubuntu-vlan
-    driver: ipvlan
-    driver_opts:
-      parent: ${INTERFACE?err}
-      ipvlan_mode: l2
-    ipam:
-      config:
-        - subnet: '10.0.1.0/16'
-          ip_range: '10.0.1.0/16'
-          gateway: '10.0.1.1'
+# networks:
+#   pve1-ubuntu-vlan:
+#     name: pve1-ubuntu-vlan
+#     driver: ipvlan
+#     driver_opts:
+#       parent: ${INTERFACE?err}
+#       ipvlan_mode: l2
+#     ipam:
+#       config:
+#         - subnet: '10.0.1.0/16'
+#           ip_range: '10.0.1.0/16'
+#           gateway: '10.0.1.1'
