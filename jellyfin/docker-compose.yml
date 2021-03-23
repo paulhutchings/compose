@@ -3,6 +3,8 @@ services:
   jellyfin:
     image: linuxserver/jellyfin:latest
     container_name: jellyfin
+    ports:
+      - 9696:8096
     environment:
       - TZ=America/New_York
     volumes:
