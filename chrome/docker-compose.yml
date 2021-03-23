@@ -4,7 +4,7 @@ services:
     container_name: chrome
     image: dorowu/ubuntu-desktop-lxde-vnc:focal-lxqt
     ports:
-      - 6080:6080
+      - 6080:80
     environment:
       RESOLUTION: '1280x720'
       USER: chrome
