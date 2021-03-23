@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     networks:
       pve1-ubuntu-vlan:
-        ipv4_address: 10.0.1.32
+        ipv4_address: 10.0.3.2
 
 volumes:
   chrome_data:
@@ -39,4 +39,4 @@ networks:
       ipvlan_mode: l2
     ipam:
       config:
-        - subnet: '10.0.1.0/24'
+        - subnet: '10.0.1.0/16'

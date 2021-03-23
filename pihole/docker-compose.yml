@@ -31,7 +31,7 @@ services:
       - 127.0.0.1
     networks:
       pve1-ubuntu-vlan:
-        ipv4_address: 10.0.1.34
+        ipv4_address: 10.0.3.3
 
 volumes:
   etc-pihole:
@@ -48,4 +48,4 @@ networks:
       ipvlan_mode: l2
     ipam:
       config:
-        - subnet: '10.0.1.0/24'
+        - subnet: '10.0.1.0/16'
