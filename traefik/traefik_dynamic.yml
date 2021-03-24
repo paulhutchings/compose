@@ -1,0 +1,26 @@
+http:
+  routers:
+    jellyfin:
+      entryPoints:
+        - https
+      rule: "(Host(`apps.studiop.page`) && Path(`/jellyfin`))"
+      service: jellyfin
+      middlewares:
+        - jellyfin-ratelimit
+        - jellyfin-path
+      tls: 
+        certResolver: studiop
+  middlewares:
+    jellyfin-ratelimit:
+      rateLimit:
+        average: 100
+        burst: 50
+    jellyfin-path:
+      replacePathRegex:
+        regex: "^/web/(.*)"
+        replacement: "/jellyfin/web/$1"
+  services:
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: 'http://10.0.1.30:9696'
