@@ -8,6 +8,7 @@ http:
       middlewares:
         - jellyfin-ratelimit
         - jellyfin-path
+        - jellyfin-stripprefix
       tls: 
         certResolver: studiop
   middlewares:
