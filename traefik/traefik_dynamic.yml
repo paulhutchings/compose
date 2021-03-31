@@ -11,6 +11,10 @@ http:
       tls: 
         certResolver: studiop
   middlewares:
+    jellyfin-stripprefix:
+      stripprefix:
+        prefixes:
+         - '/jellyfin'
     jellyfin-ratelimit:
       rateLimit:
         average: 100

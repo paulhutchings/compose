@@ -18,6 +18,7 @@ services:
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_STORAGE: /etc/traefik/acme.json
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_HTTPCHALLENGE_ENTRYPOINT: http
       TRAEFIK_PROVIDERS_FILE_FILENAME: /etc/traefik/traefik_dynamic.yml
+      TRAEFIK_PROVIDERS_FILE_WATCH: 'false'
       TRAEFIK_ACCESSLOG_FILEPATH: /var/log/access.log
       TRAEFIK_ACCESSLOG_FILTERS_STATUSCODES: 400-499,500-599
     volumes:
@@ -26,6 +27,7 @@ services:
       - traefik_data:/etc/traefik
     networks:
       - apps_studiop_page
+    restart: unless-stopped
 
 volumes:
   traefik_data:
