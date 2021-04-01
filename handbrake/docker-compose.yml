@@ -17,9 +17,6 @@ services:
       - "downloads:/storage:rw"
       - "media:/output:rw"
     tmpfs: /watch
-    group_add:
-      - ${VIDEO_GROUP?err}
-      - ${RENDER_GROUP?err}
     devices: 
       - '/dev/dri:/dev/dri'
 #      - '/dev/sr0:/dev/sr0'
