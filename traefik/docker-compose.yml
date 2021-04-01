@@ -10,23 +10,20 @@ services:
     environment:
       TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: 'false'
       TRAEFIK_PROVIDERS_DOCKER: 'true'
-      TRAEFIK_PROVIDERS_DOCKER_NETWORK: 'apps.studiop.page'
+      TRAEFIK_PROVIDERS_DOCKER_NETWORK: ${DOCKER_NET?err}
       TRAEFIK_API_INSECURE: 'true'
       TRAEFIK_ENTRYPOINTS_HTTP_ADDRESS: ':80'
       TRAEFIK_ENTRYPOINTS_HTTPS_ADDRESS: ':443'
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_EMAIL: ${EMAIL?err}
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_STORAGE: /etc/traefik/acme.json
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_HTTPCHALLENGE_ENTRYPOINT: http
-      TRAEFIK_PROVIDERS_FILE_FILENAME: /etc/traefik/traefik_dynamic.yml
-      TRAEFIK_PROVIDERS_FILE_WATCH: 'false'
       TRAEFIK_ACCESSLOG_FILEPATH: /var/log/access.log
-      TRAEFIK_ACCESSLOG_FILTERS_STATUSCODES: 400-499,500-599
     volumes:
       - /var/log/traefik:/var/log
       - /var/run/docker.sock:/var/run/docker.sock
       - traefik_data:/etc/traefik
     networks:
-      - apps_studiop_page
+      - traefik_net
     restart: unless-stopped
 
 volumes:
@@ -34,5 +31,5 @@ volumes:
     name: 'traefik_data'
 
 networks:
-  apps_studiop_page:
-    name: "apps.studiop.page"
+  traefik_net:
+    name: ${DOCKER_NET?err}
