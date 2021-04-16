@@ -32,27 +32,9 @@ services:
     depends_on:
       - "nginx-reverse-proxy"
     networks:
-      - 'apps_studiop_page'
-
-  fail2ban:
-    image: crazymax/fail2ban:latest
-    container_name: fail2ban
-    restart: "unless-stopped"
-    environment:
-      TZ: America/New_York
-    volumes:
-      - fail2ban_data:/data
-      - "/var/log:/var/log:ro"
-      - "/var/lib/docker/5000.5000/containers/:/container-logs/:ro"
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    networks:
-      - apps_studiop_page
+      - nginx_net
 
 volumes:
-  fail2ban_data:
-    name: 'fail2ban_data'
   html:
     name: "nginx_html"
   dhparam:
@@ -63,5 +45,5 @@ volumes:
     name: "nginx_certs"
 
 networks:
-  apps_studiop_page:
-    name: 'apps.studiop.page'
+  nginx_net:
+    name: ${DOCKER_NET?err}
