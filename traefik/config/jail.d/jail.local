@@ -1,8 +1,0 @@
-[DEFAULT]
-bantime = 1h
-findtime = 1s
-maxretry = 5
-bantime.increment = true
-bantime.factor = 1
-bantime.maxtime = 4w
-ignoreip = 127.0.0/8 10.0.1.0/16 192.168.1.1/32 192.168.160.0/24
