@@ -19,8 +19,8 @@ services:
       DNSMASQ_USER: pihole
       WEBPASSWORD: ${PIHOLE_PWD?err}
     volumes:
-      - '${HOME}/pihole/etc-pihole:/etc/pihole/'
-      - '${HOME}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d/'
+      - '${PIHOLE_DIR?err}/etc-pihole:/etc/pihole/'
+      - '${PIHOLE_DIR?err}/etc-dnsmasq.d:/etc/dnsmasq.d/'
     restart: unless-stopped
 
 volumes:
