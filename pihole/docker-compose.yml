@@ -16,11 +16,11 @@ services:
       DNS_BOGUS_PRIV: 'true'
       DNS_FQDN_REQUIRED: 'true'
       IPv6: 'false'
-      DNSMASQ_USER: pihole
+#      DNSMASQ_USER: pihole
       WEBPASSWORD: ${PIHOLE_PWD?err}
     volumes:
-      - '${PIHOLE_DIR?err}/etc-pihole:/etc/pihole/'
-      - '${PIHOLE_DIR?err}/etc-dnsmasq.d:/etc/dnsmasq.d/'
+      - 'etc-pihole:/etc/pihole/'
+      - 'etc-dnsmasq.d:/etc/dnsmasq.d/'
     restart: unless-stopped
 
 volumes:
