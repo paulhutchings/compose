@@ -1,12 +1,14 @@
 version: "3.4"
 services:
   jellyfin:
-    image: linuxserver/jellyfin:latest
+    image: linuxserver/jellyfin:10.6.4-1-ls95
     container_name: jellyfin
     ports:
       - 9696:8096
     environment:
       TZ: America/New_York
+      PUID: 1000
+      PGID: 1000
     volumes:
       - jellyfin_config:/config:rw
       - media:/data:rw
@@ -17,7 +19,7 @@ services:
       - traefik.enable=true
       - traefik.port=8096
       - traefik.http.routers.jellyfin.entrypoints=https
-      - traefik.http.routers.jellyfin.rule=Host(`apps.studiop.page`) && PathPrefix(`/jellyfin`)
+      - traefik.http.routers.jellyfin.rule=Host(`${HOST?err}`) && PathPrefix(`/jellyfin`)
       - traefik.http.routers.jellyfin.tls.certresolver=studiop
     networks:
       - 'jellyfin_net'
