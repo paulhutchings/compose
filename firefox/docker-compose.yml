@@ -1,0 +1,57 @@
+version: '2.4'
+services:
+  wireguard:
+#    container_name: wireguard_2
+    image: linuxserver/wireguard
+    ports:
+      - ${WG_PORT?err}:51820/udp
+      - ${BROWSER_PORT?err}:5800
+    volumes:
+      - /lib/modules:/lib/modules
+      - ${CONFIG_DIR?err}/wg:/config
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      LAN: 10.0.0.0/16
+      TZ: American/New_York
+    networks:
+      wg-net:
+
+  firefox:
+ #   container_name: firefox_2
+    image: jlesage/firefox:latest
+    volumes:
+      - /dev/shm:/dev/shm
+      - ${CONFIG_DIR?err}/ff:/config
+      - downloads:/config/Downloads
+    restart: unless-stopped
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 1000
+      TZ: America/New_York
+      UMASK: 000
+      KEEP_APP_RUNNING: 1
+      DISPLAY_WIDTH: 1920
+      DISPLAY_HEIGHT: 1080
+    network_mode: service:wireguard
+    security_opt:
+      - seccomp:./seccomp.json
+    depends_on:
+      - wireguard
+
+networks:
+  wg-net:
+    name: wireguard
+
+volumes:
+  downloads:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      device: "//10.0.1.2/downloads"
+    name: "downloads"
