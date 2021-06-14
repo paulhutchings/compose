@@ -2,7 +2,7 @@ version: '3.4'
 services:
   plex:
     container_name: plex
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:1.23.2.4656-85f0adf5b
     restart: unless-stopped
     ports:
       - '32400:32400/tcp'
@@ -14,7 +14,7 @@ services:
       - '32414:32414/udp'
     environment:
       - TZ=America/New_York
-      - PLEX_CLAIM=$PLEX_CLAIM
+      - PLEX_CLAIM=${PLEX_CLAIM?err}
     volumes:
       - 'plex_config:/config'
       - 'plex_media:/media'
@@ -27,6 +27,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=10.0.1.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      o: addr=10.0.10.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
       device: ":/mnt/storage/media"
     name: 'media'

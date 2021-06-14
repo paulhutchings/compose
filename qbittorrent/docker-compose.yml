@@ -28,7 +28,7 @@ volumes:
     driver_opts:
       type: "cifs"
       o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
-      device: "//10.0.1.2/downloads"
+      device: "//10.0.10.2/downloads"
     name: "downloads"
   qbt_config:
     name: 'qbittorrent_config'
