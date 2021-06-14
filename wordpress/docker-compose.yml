@@ -1,9 +1,8 @@
 version: '3.4'
 
 services:
-
   wordpress:
-    image: wordpress:latest
+    image: wordpress:5.7.2
     container_name: wordpress
     depends_on:
       - wordpress-db
@@ -23,7 +22,7 @@ services:
       - wp-export:/mnt/wp_export
 
   wordpress-db:
-    image: mysql:5.7
+    image: mysql:8.0.25
     container_name: wordpress-db
     restart: unless-stopped
     command: ['mysqld', '--character-set-server=utf8', '--collation-server=utf8_unicode_ci']
@@ -39,7 +38,7 @@ services:
     depends_on:
        - wordpress-db
     container_name: adminer
-    image: adminer:latest
+    image: adminer:4.8.1
     restart: unless-stopped
     environment:
       ADMINER_DEFAULT_SERVER: wordpress-db

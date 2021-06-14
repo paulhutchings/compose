@@ -1,15 +1,17 @@
 version: '3.4'
 services:
   handbrake:
-    image: jlesage/handbrake:latest
+    image: jlesage/handbrake:v1.23.2
     container_name: handbrake
     build: .
     environment:
+      USER_ID: 1000
+      GROUP_ID: 1000
       TZ: America/New_York
       UMASK: 000
-      USER_ID: 6000
-      GROUP_ID: 6000
-      SECURE_CONNECTION: 1
+      KEEP_APP_RUNNING: 1
+      DISPLAY_WIDTH: 1920
+      DISPLAY_HEIGHT: 1080
     ports:
       - "5800:5800"
     volumes:

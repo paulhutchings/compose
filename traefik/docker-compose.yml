@@ -2,7 +2,7 @@ version: "2.4"
 services:
   traefik:
     container_name: traefik
-    image: traefik:latest
+    image: traefik:v2.4.8
     ports:
       - 8080:80
       - 8443:443

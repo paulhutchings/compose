@@ -1,16 +1,16 @@
 version: "2.4"
 services:
   qbittorrent:
-    image: linuxserver/qbittorrent:latest
+    image: linuxserver/qbittorrent:14.3.5.99202106080759-7366-33e090cfcubuntu20.04.1-ls136
     container_name: qbittorrent
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
-      - WEBUI_PORT=8080
-      - UMASK=000
+      PUID: 1000
+      PGID: 1000
+      TZ: America/New_York
+      WEBUI_PORT: 8080
+      UMASK: 000
     volumes:
-      - qbittorrent_config:/config
+      - qbt_config:/config
       - downloads:/downloads
     ports:
       - 6881:6881
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     dns: 1.1.1.1
     networks:
-      pve1-ubuntu-vlan:
+      vlan:
         ipv4_address: 10.0.3.1
 
 volumes:
@@ -30,12 +30,12 @@ volumes:
       o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//10.0.1.2/downloads"
     name: "downloads"
-  qbittorrent_config:
+  qbt_config:
     name: 'qbittorrent_config'
     
 networks:
-  pve1-ubuntu-vlan:
-    name: pve1-ubuntu-vlan
+  vlan:
+    name: vlan
     driver: ipvlan
     driver_opts:
       parent: ${INTERFACE?err}
