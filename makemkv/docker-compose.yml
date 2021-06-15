@@ -17,7 +17,6 @@ services:
       - "makemkv_config:/config:rw"
       - "downloads:/storage:ro"
       - "drop:/output:rw"
-    tmpfs: /config/data/transcodes
     devices: 
 #      - '/dev/sr0:/dev/sr0'
     restart: unless-stopped
