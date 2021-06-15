@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   wordpress:
@@ -19,12 +19,19 @@ services:
     volumes:
       - wordpress:/var/www/html
       - wp-export:/var/www/html/wp_export
+    networks:
+      - wp-net
 
   wordpress-db:
     image: mysql:8.0.25
     container_name: wordpress-db
     restart: unless-stopped
-    command: ['mysqld', '--character-set-server=utf8', '--collation-server=utf8_unicode_ci']
+    command:
+      [
+        "mysqld",
+        "--character-set-server=utf8",
+        "--collation-server=utf8_unicode_ci",
+      ]
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
@@ -32,20 +39,12 @@ services:
       MYSQL_ROOT_PASSWORD: ${WP_DB_ROOT_PWD?err}
     volumes:
       - wp-db:/var/lib/mysql
+    networks:
+      - wp-net
+      - db-net
 
-  adminer:
-    depends_on:
-       - wordpress-db
-    container_name: adminer
-    image: adminer:4.8.1
-    restart: unless-stopped
-    environment:
-      ADMINER_DEFAULT_SERVER: wordpress-db
-    ports:
-      - 8088:8080
-      
   # wordpress-cli:
-  #   depends_on: 
+  #   depends_on:
   #     - wordpress
   #     - wordpress-db
   #   user: xfs
@@ -59,10 +58,16 @@ services:
   #   volumes:
   #     - wordpress:/var/www/html
 
+networks:
+  wp-net:
+    name: wordpress
+  db-net:
+    name: databases
+
 volumes:
   wordpress:
-    name: 'wordpress'
+    name: "wordpress"
   wp-db:
-    name: 'wordpress_db'
+    name: "wordpress_db"
   wp-export:
-    name: 'wordpress_export'
+    name: "wordpress_export"
