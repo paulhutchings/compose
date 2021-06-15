@@ -3,7 +3,6 @@ services:
   handbrake:
     image: jlesage/handbrake:v1.23.2
     container_name: handbrake
-    build: .
     environment:
       USER_ID: 1000
       GROUP_ID: 1000
