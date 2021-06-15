@@ -1,0 +1,40 @@
+version: '3.4'
+services:
+  handbrake:
+    image: jlesage/makemkv:v1.20.3
+    container_name: makemkv
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 1000
+      TZ: America/New_York
+      UMASK: 000
+      KEEP_APP_RUNNING: 1
+      DISPLAY_WIDTH: 1920
+      DISPLAY_HEIGHT: 1080
+    ports:
+      - "5800:5800"
+    volumes:
+      - "makemkv_config:/config:rw"
+      - "downloads:/storage:ro"
+      - "drop:/output:rw"
+    devices: 
+#      - '/dev/sr0:/dev/sr0'
+    restart: unless-stopped
+      
+volumes:
+  makemkv_config:
+    name: 'makemkv_config'
+  downloads:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      device: "//10.0.10.2/downloads"
+    name: "downloads"
+  drop:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      device: "//10.0.10.2/drop"
+    name: "drop"
