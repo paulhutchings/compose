@@ -18,7 +18,7 @@ services:
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
     security_opt:
-      - seccomp:seccomp.json
+      - seccomp:./seccomp.json
     networks:
       vlan:
         ipv4_address: 10.0.3.2
