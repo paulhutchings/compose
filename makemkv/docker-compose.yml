@@ -1,6 +1,6 @@
-version: '3.4'
+version: "3.4"
 services:
-  handbrake:
+  makemkv:
     image: jlesage/makemkv:v1.20.3
     container_name: makemkv
     environment:
@@ -17,13 +17,13 @@ services:
       - "makemkv_config:/config:rw"
       - "downloads:/storage:ro"
       - "drop:/output:rw"
-    devices: 
-#      - '/dev/sr0:/dev/sr0'
+    devices:
+      # - '/dev/sr0:/dev/sr0'
     restart: unless-stopped
-      
+
 volumes:
   makemkv_config:
-    name: 'makemkv_config'
+    name: "makemkv_config"
   downloads:
     driver: local
     driver_opts:
