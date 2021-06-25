@@ -44,6 +44,8 @@ services:
         image: redis:6.2.4
         container_name: nextcloud_redis
         restart: unless-stopped
+        volumes:
+            - redis:/data
         networks:
             - nc-net
 
@@ -68,6 +70,8 @@ networks:
         name: nextcloud
 
 volumes:
+    redis:
+        name: redis
     nc_data:
         name: nextcloud_data
     cloud_db:
