@@ -1,0 +1,81 @@
+version: '3.4'
+
+services:
+    nextcloud:
+        image: nextcloud:21.0.2
+        container_name: nextcloud
+        restart: unless-stopped
+        ports:
+            - 8888:80
+        depends_on: 
+            - nextcloud_db
+            - redis
+        volumes:
+            - cloud_data:/var/www/html/data
+            - nc_data:/var/www/html
+        environment:
+            MYSQL_PASSWORD: ${NC_DB_PWD?err}
+            MYSQL_DATABASE: nextcloud
+            MYSQL_USER: nextcloud
+            MYSQL_HOST: nextcloud_db
+            REDIS_HOST: nextcloud_redis
+            NEXTCLOUD_ADMIN_USER: admin
+            NEXTCLOUD_ADMIN_PASSWORD: ${NC_ADMIN_PWD?err}
+        networks:
+            - nc-net
+    
+    nextcloud_db:
+        image: mariadb:10.6.1
+        container_name: nextcloud_db
+        restart: unless-stopped
+        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+        volumes:
+            - cloud_db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${NC_DB_ROOT_PWD?err}
+            MYSQL_PASSWORD: ${NC_DB_PWD?err}
+            MYSQL_DATABASE: nextcloud
+            MYSQL_USER: nextcloud
+        networks:
+            - nc-net
+            - db-net
+        
+    redis:
+        image: redis:6.2.4
+        container_name: nextcloud_redis
+        restart: unless-stopped
+        networks:
+            - nc-net
+
+    collabora:
+        image: collabora/code:6.4.9.3
+        container_name: collabora
+        restart: unless-stopped
+        ports:
+            - 9980:9980
+        environment: 
+            username: admin
+            password: ${OFFICE_PWD?err}
+        cap_add: 
+            - MKNOD
+        networks:
+            - nc-net
+
+networks:
+    db-net:
+        name: databases
+    nc-net:
+        name: nextcloud
+
+volumes:
+    nc_data:
+        name: nextcloud_data
+    cloud_db:
+        name: nextcloud_db
+    cloud_data:
+        name: cloud_data
+        driver: local
+        driver_opts: 
+            type: nfs
+            o: addr=10.0.10.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+            device: ":/mnt/storage/drive"
