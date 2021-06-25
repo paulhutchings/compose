@@ -11,7 +11,7 @@ services:
             - nextcloud_db
             - redis
         volumes:
-            - cloud_data:/var/www/html/data
+            # - cloud_data:/var/www/html/data
             - nc_data:/var/www/html
         environment:
             MYSQL_PASSWORD: ${NC_DB_PWD?err}
@@ -76,10 +76,10 @@ volumes:
         name: nextcloud_data
     cloud_db:
         name: nextcloud_db
-    cloud_data:
-        name: cloud_data
-        driver: local
-        driver_opts: 
-            type: nfs
-            o: addr=10.0.10.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
-            device: ":/mnt/storage/drive"
+    # cloud_data:
+    #     name: cloud_data
+    #     driver: local
+    #     driver_opts: 
+    #         type: nfs
+    #         o: addr=10.0.10.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+    #         device: ":/mnt/storage/drive"
