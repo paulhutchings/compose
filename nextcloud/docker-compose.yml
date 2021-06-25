@@ -28,7 +28,7 @@ services:
         image: mariadb:10.6.1
         container_name: nextcloud_db
         restart: unless-stopped
-        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
         volumes:
             - cloud_db:/var/lib/mysql
         environment:
