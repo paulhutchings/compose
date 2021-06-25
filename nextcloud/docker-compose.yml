@@ -6,7 +6,7 @@ services:
         container_name: nextcloud
         restart: unless-stopped
         ports:
-            - 8888:80
+            - 8000:80
         depends_on: 
             - nextcloud_db
             - redis
