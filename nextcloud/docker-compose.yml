@@ -17,8 +17,8 @@ services:
             MYSQL_PASSWORD: ${NC_DB_PWD?err}
             MYSQL_DATABASE: nextcloud
             MYSQL_USER: nextcloud
-            MYSQL_HOST: nextcloud_db
-            REDIS_HOST: nextcloud_redis
+            MYSQL_HOST: nextcloud-db
+            REDIS_HOST: nextcloud-redis
             NEXTCLOUD_ADMIN_USER: Administrator
             NEXTCLOUD_ADMIN_PASSWORD: ${NC_ADMIN_PWD?err}
             NEXTCLOUD_TRUSTED_DOMAINS: 10.0.1.40 cloud.ubuntu.pve2.studiop
