@@ -44,7 +44,7 @@ services:
         
     redis:
         image: redis:6.2.4
-        container_name: nextcloud_redis
+        container_name: nextcloud-redis
         restart: unless-stopped
         volumes:
             - redis:/data
