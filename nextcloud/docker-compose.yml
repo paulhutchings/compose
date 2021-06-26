@@ -58,8 +58,7 @@ services:
         ports:
             - 9980:9980
         environment: 
-            username: admin
-            password: ${OFFICE_PWD?err}
+            extra_params: --o:ssl.enable=false
         cap_add: 
             - MKNOD
         networks:
