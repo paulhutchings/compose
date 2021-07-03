@@ -18,14 +18,17 @@ services:
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_STORAGE: /etc/traefik/acme.json
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_DNSCHALLENGE_PROVIDER: gcloud
       TRAEFIK_ACCESSLOG_FILEPATH: /var/log/access.log
-      GCE_SERVICE_ACCOUNT_FILE: ${GCE_SERVICE_ACCOUNT_FILE?err}
-      GCE_SERVICE_ACCOUNT: dns
+      GOOGLE_APPLICATION_CREDENTIALS: ${GCP_CREDENTIALS_FILE?err}
+      GCE_PROJECT: ${GCE_PROJECT?err}
     volumes:
       - /var/log/traefik:/var/log
       - /var/run/docker.sock:/var/run/docker.sock
       - traefik_data:/etc/traefik
+    dns: 1.1.1.1
     networks:
       - traefik_net
+      - vlan:
+          ipv4_address: 10.0.3.3
     restart: unless-stopped
 
 volumes:
@@ -35,3 +38,14 @@ volumes:
 networks:
   traefik_net:
     name: ${DOCKER_NET?err}
+  vlan:
+    name: vlan
+    driver: ipvlan
+    driver_opts:
+      parent: ${INTERFACE?err}
+      ipvlan_mode: l2
+    ipam:
+      config:
+        - subnet: '10.0.1.0/16'
+          ip_range: '10.0.1.0/16'
+          gateway: '10.0.1.1'
