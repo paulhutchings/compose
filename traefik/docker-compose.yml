@@ -26,9 +26,8 @@ services:
       - traefik_data:/etc/traefik
     dns: 1.1.1.1
     networks:
-      - traefik_net
-      - vlan:
-          ipv4_address: 10.0.3.3
+      vlan:
+        ipv4_address: 10.0.3.3
     restart: unless-stopped
 
 volumes:
@@ -36,8 +35,6 @@ volumes:
     name: 'traefik_data'
 
 networks:
-  traefik_net:
-    name: ${DOCKER_NET?err}
   vlan:
     name: vlan
     driver: ipvlan
