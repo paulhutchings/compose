@@ -20,6 +20,8 @@ services:
       TRAEFIK_ACCESSLOG_FILEPATH: /var/log/access.log
       GOOGLE_APPLICATION_CREDENTIALS: ${GCP_CREDENTIALS_FILE?err}
       GCE_PROJECT: ${GCE_PROJECT?err}
+      GCE_TTL: 600
+      GCE_PROPAGATION_TIMEOUT: 600
     volumes:
       - /var/log/traefik:/var/log
       - /var/run/docker.sock:/var/run/docker.sock
