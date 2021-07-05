@@ -36,6 +36,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=10.0.10.2,rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      o: addr=${IP?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
       device: ":/mnt/storage/media"
     name: 'media'
