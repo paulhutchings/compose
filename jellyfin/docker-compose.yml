@@ -23,10 +23,10 @@ services:
       - traefik.http.routers.jellyfin.rule=Host(`${HOST?err}`) && PathPrefix(`/jellyfin`)
       - traefik.http.routers.jellyfin.tls.certresolver=studiop
     networks:
-      - 'jellyfin_net'
+      - 'proxy_net'
 
 networks:
-  jellyfin_net:
+  proxy_net:
     name: ${DOCKER_NET?err}
 
 volumes:

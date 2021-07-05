@@ -29,7 +29,7 @@ services:
     dns: 1.1.1.1
     networks:
       - vlan
-      - traefik_net
+      - proxy_net
     restart: unless-stopped
 
 volumes:
@@ -37,7 +37,7 @@ volumes:
     name: 'traefik_data'
 
 networks:
-  traefik_net:
+  proxy_net:
     name: ${DOCKER_NET?err}
   vlan:
     name: ipvlan
