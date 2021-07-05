@@ -39,6 +39,12 @@ volumes:
 networks:
   proxy_net:
     name: ${DOCKER_NET?err}
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:172.0.0.0/24}
+          ip_range: ${IP_RANGE:172.0.0.0/24}
+
   vlan:
     name: ipvlan
     driver: ipvlan
