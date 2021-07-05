@@ -19,8 +19,7 @@ services:
     restart: unless-stopped
     dns: 1.1.1.1
     networks:
-      vlan:
-        ipv4_address: 10.0.3.1
+      - vlan
 
 volumes:
   downloads:
@@ -28,14 +27,14 @@ volumes:
     driver_opts:
       type: "cifs"
       o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
-      device: "//10.0.10.2/downloads"
+      device: "//${IP?err}/downloads"
     name: "downloads"
   qbt_config:
     name: 'qbittorrent_config'
     
 networks:
   vlan:
-    name: vlan
+    name: ipvlan
     driver: ipvlan
     driver_opts:
       parent: ${INTERFACE?err}
@@ -43,5 +42,5 @@ networks:
     ipam:
       config:
         - subnet: '10.0.1.0/16'
-          ip_range: '10.0.1.0/16'
+          ip_range: '10.0.74.0/24'
           gateway: '10.0.1.1'
