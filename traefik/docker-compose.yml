@@ -49,7 +49,7 @@ networks:
     name: ipvlan
     driver: ipvlan
     driver_opts:
-      parent: ${INTERFACE?err}
+      parent: ${INTERFACE}
       ipvlan_mode: l2
     ipam:
       config:
