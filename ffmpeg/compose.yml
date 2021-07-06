@@ -1,0 +1,18 @@
+version: "3.4"
+services:
+  ffmpeg:
+    image: jrottenberg/ffmpeg:4.4-vaapi
+    container_name: ffmpeg
+    volumes:
+        - drop:/drop
+    devices:
+        - /dev/dri:/dev/dri
+
+volumes:
+  drop:
+    name: drop
+    driver: local
+    driver_opts:
+      type: "cifs"
+      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      device: "//${IP?err}/drop"
