@@ -8,9 +8,11 @@ services:
         ports:
           - 8088:8080
         networks:
+          - adminer_net
           - db-net
 
 networks:
-    db-net:
-        name: databases
-        internal: true
+  adminer_net:
+  db-net:
+      name: databases
+      internal: true
