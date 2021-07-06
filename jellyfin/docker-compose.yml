@@ -28,6 +28,7 @@ services:
 
 networks:
   jellyfin_net:
+    name: jellyfin
   proxy_net:
     name: ${DOCKER_NET?err}
     internal: true

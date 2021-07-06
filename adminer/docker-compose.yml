@@ -13,6 +13,7 @@ services:
 
 networks:
   adminer_net:
+    name: adminer
   db-net:
       name: databases
       internal: true
