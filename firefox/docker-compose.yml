@@ -19,7 +19,7 @@ services:
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
     security_opt:
-      - seccomp:./seccomp.json
+      - seccomp:seccomp.json
     dns: 1.1.1.1
     networks:
       - vlan
