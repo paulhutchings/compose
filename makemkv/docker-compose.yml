@@ -22,6 +22,12 @@ services:
       - /dev/sg0:/dev/sg0
       - /dev/sg1:/dev/sg1
     restart: unless-stopped
+    networks:
+      - mkv_net
+
+networks:
+  mkv_net:
+    name: makemkv
 
 volumes:
   makemkv_config:

@@ -25,6 +25,12 @@ services:
       - '/dev/dri:/dev/dri'
 #      - '/dev/sr0:/dev/sr0'
     restart: unless-stopped
+    networks:
+      - handbrake_net
+
+networks:
+  handbrake_net:
+    name: handbrake
       
 volumes:
   handbrake_config:
