@@ -13,8 +13,8 @@ services:
       - qbt_config:/config
       - downloads:/downloads
     ports:
-      - ${PORT:-6881}:6881
-      - 6881:6881/udp
+      - ${PORT:-6881}:${PORT:-6881}
+      - ${PORT:-6881}:${PORT:-6881}/udp
       - 8080:8080
     restart: unless-stopped
     dns: 1.1.1.1
