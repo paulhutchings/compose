@@ -63,6 +63,7 @@ networks:
     name: wordpress
   db-net:
     name: databases
+    internal: true
 
 volumes:
   wordpress:

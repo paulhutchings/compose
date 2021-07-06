@@ -13,3 +13,4 @@ services:
 networks:
     db-net:
         name: databases
+        internal: true
