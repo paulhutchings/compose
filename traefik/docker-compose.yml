@@ -39,7 +39,6 @@ volumes:
 networks:
   proxy_net:
     name: ${DOCKER_NET?err}
-    driver: bridge
     internal: true
   vlan:
     name: ipvlan
