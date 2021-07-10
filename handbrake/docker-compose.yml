@@ -12,7 +12,7 @@ services:
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
     ports:
-      - "5858:5800"
+      - "5885:5800"
     volumes:
       - "handbrake_config:/config:rw"
       - "downloads:/storage/downloads:ro"
@@ -23,7 +23,6 @@ services:
       - /storage
     devices: 
       - '/dev/dri:/dev/dri'
-#      - '/dev/sr0:/dev/sr0'
     restart: unless-stopped
     networks:
       - handbrake_net
