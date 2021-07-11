@@ -19,7 +19,8 @@ services:
     restart: unless-stopped
     dns: 1.1.1.1
     networks:
-      - vlan
+      vlan:
+        ipv4_address: 10.0.74.1
 
 volumes:
   downloads:
