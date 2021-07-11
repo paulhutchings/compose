@@ -28,8 +28,9 @@ services:
       - traefik_data:/etc/traefik
     dns: 1.1.1.1
     networks:
-      - vlan
-      - proxy_net
+      vlan:
+        ipv4_address: 10.0.74.0
+      proxy_net:
     restart: unless-stopped
 
 volumes:
