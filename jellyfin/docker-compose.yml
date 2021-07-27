@@ -12,7 +12,9 @@ services:
     volumes:
       - jellyfin_config:/config:rw
       - media:/data:rw
-    tmpfs: /config/data/transcodes
+    tmpfs: 
+      - /config/data/transcodes
+      - /config/data/cache
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
