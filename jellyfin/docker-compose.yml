@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.6.4-1-ls95
+    image: linuxserver/jellyfin:10.7.6-1-ls123
     container_name: jellyfin
     ports:
       - 9696:8096
@@ -9,14 +9,16 @@ services:
       TZ: America/New_York
       PUID: 1000
       PGID: 1000
+      NVIDIA_VISIBLE_DEVICES: all
     volumes:
       - jellyfin_config:/config:rw
       - media:/data:rw
     tmpfs: 
       - /config/data/transcodes
       - /config/data/cache
-    devices:
-      - /dev/dri:/dev/dri
+#    devices:
+#      - /dev/dri:/dev/dri
+    runtime: nvidia
     restart: unless-stopped
     labels:
       - traefik.enable=true
