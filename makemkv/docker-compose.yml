@@ -35,14 +35,14 @@ volumes:
   downloads:
     driver: local
     driver_opts:
-      type: "cifs"
-      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      type: cifs
+      o: "addr=${IP?err},username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//${IP?err}/downloads"
     name: "downloads"
   drop:
     driver: local
     driver_opts:
-      type: "cifs"
-      o: "username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      type: cifs
+      o: "addr=${IP?err},username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//${IP?err}/drop"
     name: "drop"
