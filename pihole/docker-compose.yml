@@ -24,6 +24,22 @@ services:
     restart: unless-stopped
     dns:
       - 127.0.0.1
+    networks:
+      pihole_net:
+        ipv4_address: 10.0.74.74
+
+networks:
+  pihole_net:
+    name: pihole_vlan
+    driver: ipvlan
+    driver_opts:
+      parent: ${INTERFACE}
+      ipvlan_mode: l2
+    ipam:
+      config:
+        - subnet: '10.0.1.0/16'
+          ip_range: '10.0.74.0/24'
+          gateway: '10.0.1.1'
 
 volumes:
   etc-pihole:
