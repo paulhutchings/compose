@@ -16,11 +16,10 @@ services:
     volumes:
       - "makemkv_config:/config:rw"
       - "downloads:/storage:ro"
-      - "drop:/output:rw"
+      - "media:/output:rw"
     devices:
       - /dev/sr0:/dev/sr0
-      - /dev/sg0:/dev/sg0
-      - /dev/sg1:/dev/sg1
+      - /dev/sg2:/dev/sg2
     restart: unless-stopped
     networks:
       - mkv_net
@@ -39,10 +38,10 @@ volumes:
       o: "addr=${IP?err},username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
       device: "//${IP?err}/downloads"
     name: "downloads"
-  drop:
+  media:
     driver: local
     driver_opts:
-      type: cifs
-      o: "addr=${IP?err},username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
-      device: "//${IP?err}/drop"
-    name: "drop"
+      type: nfs
+      o: addr=${IP?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      device: ":/mnt/storage/media"
+    name: 'media'
