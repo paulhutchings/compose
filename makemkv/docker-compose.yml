@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   makemkv:
-    image: jlesage/makemkv:v1.20.3
+    image: jlesage/makemkv:v1.21.0
     container_name: makemkv
     environment:
       USER_ID: 1000
