@@ -3,12 +3,13 @@ version: '3.4'
 services:
   portainer:
     container_name: portainer
-    image: portainer/portainer-ce:2.6.0-alpine
+    image: portainer/portainer-ce:2.9.0-alpine
     command: -H unix:///var/run/docker.sock
     restart: always
     ports:
       - 9000:9000
       - 8000:8000
+      - 9443:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
