@@ -18,10 +18,10 @@ services:
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_STORAGE: /etc/traefik/acme.json
       TRAEFIK_CERTIFICATESRESOLVERS_STUDIOP_ACME_DNSCHALLENGE_PROVIDER: gcloud
       TRAEFIK_ACCESSLOG_FILEPATH: /var/log/access.log
-      GOOGLE_APPLICATION_CREDENTIALS: /etc/traefik/credentials.json
-      GCE_PROJECT: ${GCP_PROJECT?err}
-      GCE_TTL: 300
-      GCE_PROPAGATION_TIMEOUT: 300
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID?err}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY?err}
+      AWS_REGION: ${AWS_REGION?err}
+      AWS_HOSTED_ZONE_ID: ${AWS_HOSTED_ZONE_ID?err}
     volumes:
       - /var/log/traefik:/var/log
       - /var/run/docker.sock:/var/run/docker.sock
