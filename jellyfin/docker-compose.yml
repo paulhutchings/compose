@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.7.6-1-ls123
+    image: linuxserver/jellyfin:10.7.7-1-ls133
     container_name: jellyfin
     ports:
       - 9696:8096
