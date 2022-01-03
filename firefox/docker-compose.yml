@@ -39,4 +39,4 @@ volumes:
       type: nfs
       o: addr=${IP?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
       device: ":/mnt/storage/downloads"
-    name: "downloadsv2"
+    name: "downloads_v2"
