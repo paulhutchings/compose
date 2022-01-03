@@ -1,12 +1,11 @@
 version: "2.4"
 services:
   firefox:
-    container_name: firefox
-    image: jlesage/firefox:v1.17.1
+    container_name: firefox${FF_NUM?err}
+    image: jlesage/firefox:v1.18.0
     ports:
-      - 5858:5800
+      - ${FF_PORT?err}:5800
     volumes:
-      - /dev/shm:/dev/shm
       - ff_config:/config
       - downloads:/config/downloads
     restart: unless-stopped
@@ -22,6 +21,10 @@ services:
       - seccomp:seccomp.json
     networks:
       - ff_net
+    cpus: 2
+    mem_limit: 4g
+    mem_reservation: 2g
+    shm_size: 4g
 
 networks:
   ff_net:
@@ -29,11 +32,11 @@ networks:
 
 volumes:
   ff_config:
-    name: firefox_config
+    name: firefox${FF_NUM?err}_config
   downloads:
     driver: local
     driver_opts:
-      type: cifs
-      o: "addr=${IP?err},username=docker,password=${CIFS_PWD?err},uid=6000,gid=6000"
+      type: nfs
+      o: addr=${IP?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
       device: "//${IP?err}/downloads"
     name: "downloads"
