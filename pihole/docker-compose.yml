@@ -24,24 +24,6 @@ services:
     restart: unless-stopped
     dns:
       - 127.0.0.1
-    networks:
-      vlan:
-        ipv4_address: 10.0.74.74
-
-networks:
-  vlan:
-    name: ipvlan
-    driver: ipvlan
-    driver_opts:
-      parent: ${INTERFACE?err}
-      ipvlan_mode: l2
-    ipam:
-      config:
-        - subnet: '10.0.1.0/16'
-          ip_range: '10.0.74.0/24'
-          gateway: '10.0.1.1'
-          aux_addresses:
-            fitlet: 10.0.74.0
 
 volumes:
   etc-pihole:
