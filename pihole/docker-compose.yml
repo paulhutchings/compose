@@ -25,7 +25,7 @@ services:
     dns:
       - 127.0.0.1
     networks:
-      pihole_net:
+      vlan:
         ipv4_address: 10.0.74.74
 
 networks:
