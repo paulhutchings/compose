@@ -1,2 +1,2 @@
-# docker-compose
+# compose
 Docker compose templates
