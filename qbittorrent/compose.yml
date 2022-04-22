@@ -18,6 +18,15 @@ services:
     networks:
       vlan:
         ipv4_address: ${QBT_IP?err}
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 2G
+        reservations:
+          cpus: 0.5
+          memory: 1G
+
 
 volumes:
   downloads:
