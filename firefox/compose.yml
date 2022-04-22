@@ -1,4 +1,3 @@
-version: "2.4"
 services:
   firefox:
     container_name: firefox${FF_NUM?err}
@@ -6,37 +5,38 @@ services:
     ports:
       - ${FF_PORT?err}:5800
     volumes:
-      - ff_config:/config
+      - config:/config
       - downloads:/config/downloads
     restart: unless-stopped
     environment:
-      USER_ID: 1000
-      GROUP_ID: 1000
       TZ: America/New_York
       UMASK: 000
       KEEP_APP_RUNNING: 1
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
-    security_opt:
-      - seccomp:seccomp.json
     networks:
-      - ff_net
-    cpus: 2
-    mem_limit: 4g
-    mem_reservation: 2g
-    shm_size: 4g
+      - ff-net
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 4G
+        reservations:
+          cpus: 1
+          memory: 2G
+    shm_size: 2G
 
 networks:
-  ff_net:
+  ff-net:
     name: firefox
 
 volumes:
-  ff_config:
-    name: firefox${FF_NUM?err}_config
+  config:
+    name: firefox${FF_NUM?err}-config
   downloads:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=${IP?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
       device: ":/mnt/storage/downloads"
-    name: "downloads_v2"
+    name: "downloads"
