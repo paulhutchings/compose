@@ -7,7 +7,6 @@ services:
     volumes:
       - config:/config
       - downloads:/config/downloads
-      - /dev/shm:/dev/shm
     restart: unless-stopped
     environment:
       TZ: America/New_York
@@ -20,11 +19,12 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 3
+          cpus: 2
           memory: 4G
         reservations:
           cpus: 0.5
           memory: 2G
+    shm_size: 2G
 
 networks:
   ff-net:
