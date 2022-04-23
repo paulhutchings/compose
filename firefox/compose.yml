@@ -7,6 +7,7 @@ services:
     volumes:
       - config:/config
       - downloads:/config/downloads
+      - /dev/shm:/dev/shm
     restart: unless-stopped
     environment:
       TZ: America/New_York
@@ -19,12 +20,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 2
+          cpus: 3
           memory: 4G
         reservations:
-          cpus: 1
+          cpus: 0.5
           memory: 2G
-    shm_size: 2G
 
 networks:
   ff-net:
@@ -37,6 +37,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14
+      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nconnect=16
       device: ":/mnt/storage/downloads"
     name: "downloads"
