@@ -1,6 +1,6 @@
 services:
   qbittorrent:
-    image: linuxserver/qbittorrent:4.4.2
+    image: linuxserver/qbittorrent:14.3.9
     container_name: qbittorrent
     environment:
       TZ: America/New_York
@@ -21,10 +21,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 1
+          cpus: '1'
           memory: 2G
         reservations:
-          cpus: 0.5
+          cpus: '0.5'
           memory: 1G
 
 
