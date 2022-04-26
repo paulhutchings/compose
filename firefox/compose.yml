@@ -37,6 +37,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nconnect=16
+      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nconnect=16,nfsvers=4
       device: ":/mnt/storage/downloads"
     name: "downloads"
