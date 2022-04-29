@@ -1,0 +1,55 @@
+services:
+  jellyfin:
+    image: linuxserver/jellyfin:10.7.7
+    container_name: jellyfin
+    ports:
+      - 9696:8096
+    environment:
+      TZ: America/New_York
+      PUID: 1000
+      PGID: 1000
+      NVIDIA_VISIBLE_DEVICES: all
+    volumes:
+      - config:/config:rw
+      - media:/data:rw
+      - /opt/drivers/nvidia:/usr/local/nvidia:ro
+    devices:
+      - /dev/nvidia0:/dev/nvidia0
+      - /dev/nvidia-uvm:/dev/nvidia-uvm
+      - /dev/nvidiactl:/dev/nvidiactl
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.port=8096
+      - traefik.http.routers.jellyfin.entrypoints=https
+      - traefik.http.routers.jellyfin.rule=Host(`${TRAEFIK_HOST?err}`) && PathPrefix(`/jellyfin`)
+      - traefik.http.routers.jellyfin.tls.certresolver=studiop
+    networks:
+      - jellyfin-net
+      - proxy-net
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+
+networks:
+  jellyfin-net:
+    name: jellyfin
+  proxy-net:
+    name: ${PROXY_NET?err}
+    internal: true
+
+volumes:
+  config:
+    name: jellyfin-config
+  media:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nfsvers=4,nconnect=16
+      device: :/mnt/storage/media
+    name: media
