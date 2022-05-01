@@ -4,7 +4,6 @@ services:
     container_name: qbittorrent
     environment:
       TZ: America/New_York
-      WEBUI_PORT: 8080
       UMASK: 000
     volumes:
       - config:/config
@@ -12,12 +11,8 @@ services:
     ports:
       - ${QBT_PORT:-6881}:${QBT_PORT:-6881}
       - ${QBT_PORT:-6881}:${QBT_PORT:-6881}/udp
-      - 8080:8080
+      - 8017:8080
     restart: unless-stopped
-    dns: ${QBT_DNS?err}
-    networks:
-      vlan:
-        ipv4_address: ${QBT_IP?err}
     deploy:
       resources:
         limits:
@@ -38,16 +33,3 @@ volumes:
     name: "downloads"
   config:
     name: 'qbittorrent-config'
-    
-networks:
-  vlan:
-    name: ipvlan
-    driver: ipvlan
-    driver_opts:
-      parent: ${VLAN_INTERFACE?err}
-      ipvlan_mode: l2
-    ipam:
-      config:
-        - subnet: '10.0.1.0/16'
-          ip_range: '10.0.74.0/24'
-          gateway: '10.0.1.1'
