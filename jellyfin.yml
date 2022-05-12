@@ -8,15 +8,11 @@ services:
       TZ: America/New_York
       PUID: 1000
       PGID: 1000
-      NVIDIA_VISIBLE_DEVICES: all
     volumes:
-      - config:/config:rw
-      - media:/data:rw
-      - /opt/drivers/nvidia:/usr/local/nvidia:ro
+      - config:/config
+      - media:/data
     devices:
-      - /dev/nvidia0:/dev/nvidia0
-      - /dev/nvidia-uvm:/dev/nvidia-uvm
-      - /dev/nvidiactl:/dev/nvidiactl
+      - /dev/dri:/dev/dri
     restart: unless-stopped
     labels:
       - traefik.enable=true
