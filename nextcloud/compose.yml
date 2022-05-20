@@ -24,8 +24,8 @@ services:
       OBJECTSTORE_S3_KEY: ${NC_S3_ACCESS_KEY?err}
       OBJECTSTORE_S3_SECRET: ${NC_S3_SECRET_KEY?err}
       OBJECTSTORE_S3_PORT: ${NC_S3_PORT:-9000}
-      OBJECTSTORE_S3_SSL: false
-      OBJECTSTORE_S3_USEPATH_STYLE: true
+      OBJECTSTORE_S3_SSL: 'false'
+      OBJECTSTORE_S3_USEPATH_STYLE: 'true'
     networks:
       - nc-net
 
