@@ -1,0 +1,81 @@
+services:
+  nextcloud:
+    image: nextcloud:24.0.0
+    container_name: nextcloud
+    restart: unless-stopped
+    ports:
+      - 8880:80
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - data:/var/www/html
+    environment:
+      MYSQL_PASSWORD: ${NC_DB_PWD?err}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_HOST: nextcloud-db
+      REDIS_HOST: nextcloud-redis
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: ${NC_ADMIN_PWD?err}
+      NEXTCLOUD_TRUSTED_DOMAINS: ${NC_DOMAINS?err}
+      OBJECTSTORE_S3_HOST: ${NC_S3_HOST?err}
+      OBJECTSTORE_S3_BUCKET: nextcloud
+      OBJECTSTORE_S3_KEY: ${NC_S3_ACCESS_KEY?err}
+      OBJECTSTORE_S3_SECRET: ${NC_S3_SECRET_KEY?err}
+      OBJECTSTORE_S3_PORT: ${NC_S3_PORT:-9000}
+      OBJECTSTORE_S3_SSL: false
+      OBJECTSTORE_S3_USEPATH_STYLE: true
+    networks:
+      - nc-net
+
+  db:
+    image: mariadb:10.7.3
+    container_name: nextcloud-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${NC_DB_ROOT_PWD?err}
+      MYSQL_PASSWORD: ${NC_DB_PWD?err}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+    networks:
+      - nc-net
+      - db-net
+
+  redis:
+    image: redis:7.0.0
+    container_name: nextcloud-redis
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+    networks:
+      - nc-net
+
+  collabora:
+    image: collabora/code:21.11.4.2.1
+    container_name: collabora
+    restart: unless-stopped
+    environment:
+      extra_params: --o:ssl.enable=false
+    cap_add:
+      - MKNOD
+    networks:
+      - nc-net
+
+networks:
+  db-net:
+    name: databases
+    internal: true
+  nc-net:
+    name: nextcloud
+
+volumes:
+  redis:
+    name: redis
+  data:
+    name: nextcloud-data
+  db:
+    name: nextcloud-db
