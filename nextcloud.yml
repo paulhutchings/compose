@@ -43,7 +43,10 @@ services:
     image: mariadb:10.7.3
     container_name: nextcloud-db
     restart: unless-stopped
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
+    command:
+      - --transaction-isolation=READ-COMMITTED
+      - --binlog-format=ROW
+      - --innodb-read-only-compressed=OFF
     volumes:
       - db:/var/lib/mysql
     environment:
@@ -57,10 +60,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
-          memory: 2G
-        reservations:
           cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
           memory: 512M
 
   redis:
@@ -100,6 +103,35 @@ services:
         reservations:
           cpus: '0.5'
           memory: 1G
+
+  db-backup:
+    image: databack/mysql-backup:v0.10.0
+    container_name: nextcloud-db-backup
+    depends_on:
+      - db
+    environment:
+      DB_SERVER: nextcloud-db
+      DB_USER: nextcloud
+      DB_PASS: ${NC_DB_PWD?err}
+      DB_NAMES: nextcloud
+      DB_DUMP_BEGIN: '0500'
+      DB_DUMP_TARGET: s3://backup.docker.db/nextcloud
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID?err}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY?err}
+      AWS_ENDPOINT_URL: ${S3_URL?err}
+    volumes:
+      - tmp:/tmp
+    networks:
+      - db-net
+      - nc-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
 networks:
   db-net:
