@@ -3,7 +3,7 @@ services:
     image: wordpress:6.0.0-php8.1-apache
     container_name: wordpress
     depends_on:
-      - wordpress-db
+      - db
     restart: unless-stopped
     ports:
       - 80:80
@@ -14,20 +14,34 @@ services:
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_TABLE_PREFIX: wp_
       WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME','${WP_URL?err}');
+        define('WP_SITEURL','${WP_URL?err}');
+        define('AUTOMATIC_UPDATER_DISABLED', true);
+        define('WP_MEMORY_LIMIT', '64M');
+        define('WP_MAX_MEMORY_LIMIT', '256M');
     volumes:
       - wordpress:/var/www/html
       - export:/var/www/html/export
     networks:
       - wp-net
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
 
-  wordpress-db:
+  db:
     image: mysql:8.0.29
     container_name: wordpress-db
     restart: unless-stopped
     command:
       - mysqld
       - --character-set-server=utf8
-      - --collation-server=utf8_unicode_ci
+      - --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
@@ -38,6 +52,41 @@ services:
     networks:
       - wp-net
       - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  db-backup:
+    image: databack/mysql-backup:v0.10.0
+    container_name: wordpress-db-backup
+    environment:
+      DB_SERVER: wordpress-db
+      DB_USER: wordpress
+      DB_PASS: ${WP_DB_PWD?err}
+      DB_NAMES: wordpress
+      DB_DUMP_BEGIN: '0500'
+      DB_DUMP_TARGET: s3://backup.docker.db/wordpress
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID?err}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY?err}
+      AWS_ENDPOINT_URL: ${S3_URL?err}
+    volumes:
+      - tmp:/tmp
+    networks:
+      - db-net
+      - wp-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
 networks:
   wp-net:
@@ -53,3 +102,5 @@ volumes:
     name: wordpress-db
   export:
     name: wordpress-export
+  tmp:
+    external: false
