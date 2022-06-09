@@ -64,6 +64,8 @@ services:
   db-backup:
     image: databack/mysql-backup:v0.10.0
     container_name: wordpress-db-backup
+    depends_on:
+      - db
     environment:
       DB_SERVER: wordpress-db
       DB_USER: wordpress
