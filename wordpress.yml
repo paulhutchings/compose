@@ -25,9 +25,9 @@ services:
     container_name: wordpress-db
     restart: unless-stopped
     command:
-      - mysqld,
-      - --character-set-server=utf8,
-      - --collation-server=utf8_unicode_ci,
+      - mysqld
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
