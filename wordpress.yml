@@ -13,7 +13,6 @@ services:
       WORDPRESS_DB_PASSWORD: ${WP_DB_PWD?err}
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_TABLE_PREFIX: wp_
-      WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_HOME','${WP_URL?err}');
         define('WP_SITEURL','${WP_URL?err}');
