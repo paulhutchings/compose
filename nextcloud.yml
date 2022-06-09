@@ -26,8 +26,18 @@ services:
       OBJECTSTORE_S3_PORT: ${NC_S3_PORT:-9000}
       OBJECTSTORE_S3_SSL: 'false'
       OBJECTSTORE_S3_USEPATH_STYLE: 'true'
+      PHP_UPLOAD_LIMIT: 5G
+      PHP_MEMORY_LIMIT: 2G
     networks:
       - nc-net
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 512M
 
   db:
     image: mariadb:10.7.3
@@ -44,6 +54,14 @@ services:
     networks:
       - nc-net
       - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
 
   redis:
     image: redis:7.0.0
@@ -53,17 +71,35 @@ services:
       - redis:/data
     networks:
       - nc-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
   collabora:
     image: collabora/code:21.11.4.2.1
     container_name: collabora
     restart: unless-stopped
+    ports:
+      - 9980:9980
     environment:
       extra_params: --o:ssl.enable=false
     cap_add:
       - MKNOD
     networks:
       - nc-net
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
 
 networks:
   db-net:

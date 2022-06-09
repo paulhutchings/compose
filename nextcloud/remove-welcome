@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker exec collabora sed -i '/<welcome>/{n;s/true/false/g}' /etc/loolwsd/loolwsd.xml
