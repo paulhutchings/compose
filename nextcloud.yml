@@ -147,3 +147,5 @@ volumes:
     name: nextcloud-data
   db:
     name: nextcloud-db
+  tmp:
+    external: false
