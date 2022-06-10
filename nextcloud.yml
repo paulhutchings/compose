@@ -28,6 +28,8 @@ services:
       OBJECTSTORE_S3_USEPATH_STYLE: 'true'
       PHP_UPLOAD_LIMIT: 5G
       PHP_MEMORY_LIMIT: 2G
+    labels:
+      - docker-volume-backup.stop-during-backup=nextcloud
     networks:
       - nc-net
     deploy:
@@ -119,10 +121,34 @@ services:
       AWS_ACCESS_KEY_ID: ${BACKUP_S3_ACCESS_KEY?err}
       AWS_SECRET_ACCESS_KEY: ${BACKUP_S3_SECRET_KEY?err}
       AWS_ENDPOINT_URL: ${BACKUP_S3_URL?err}
-    volumes:
-      - tmp:/tmp
     networks:
       - db-net
+      - nc-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  backup:
+    image: offen/docker-volume-backup:v2.17.1
+    container_name: nextcloud-backup
+    restart: unless-stopped
+    environment:
+      AWS_S3_BUCKET_NAME: backup.docker.data
+      AWS_S3_PATH: nextcloud
+      AWS_ACCESS_KEY_ID: ${BACKUP_S3_ACCESS_KEY?err}
+      AWS_SECRET_ACCESS_KEY: ${BACKUP_S3_SECRET_KEY?err}
+      AWS_ENDPOINT: ${BACKUP_S3_ENDPOINT?err}
+      AWS_ENDPOINT_PROTO: http
+      BACKUP_STOP_CONTAINER_LABEL: nextcloud
+    volumes:
+      - data:/backup:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
       - nc-net
     deploy:
       resources:
@@ -147,5 +173,3 @@ volumes:
     name: nextcloud-data
   db:
     name: nextcloud-db
-  tmp:
-    external: false
