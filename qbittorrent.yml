@@ -5,6 +5,8 @@ services:
     environment:
       TZ: America/New_York
       UMASK: 000
+    labels:
+      - docker-volume-backup.stop-during-backup=qbt
     volumes:
       - config:/config
       - downloads:/downloads
@@ -24,6 +26,32 @@ services:
           cpus: '0.5'
           memory: 1G
 
+  backup:
+    image: offen/docker-volume-backup:v2.17.1
+    container_name: qbt-backup
+    restart: unless-stopped
+    environment:
+      AWS_S3_BUCKET_NAME: backup.docker.data
+      AWS_S3_PATH: qbittorrent
+      AWS_ACCESS_KEY_ID: ${BACKUP_S3_ACCESS_KEY?err}
+      AWS_SECRET_ACCESS_KEY: ${BACKUP_S3_SECRET_KEY?err}
+      AWS_ENDPOINT: ${BACKUP_S3_ENDPOINT?err}
+      AWS_ENDPOINT_PROTO: http
+      BACKUP_STOP_CONTAINER_LABEL: qbt
+    volumes:
+      - config:/backup:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - qbt-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
 networks:
   qbt-net:
     name: qbittorrent
@@ -34,7 +62,7 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=${NFS_HOST?err},rw,noatime,rsize=8192,wsize=8192,tcp,timeo=14,nconnect=16,nfsvers=4
-      device: ":/mnt/storage/downloads"
-    name: "downloads"
+      device: :/mnt/storage/downloads
+    name: downloads
   config:
-    name: 'qbittorrent-config'
+    name: qbittorrent-config
