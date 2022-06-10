@@ -51,6 +51,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - jellyfin-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
 networks:
   jellyfin-net:
