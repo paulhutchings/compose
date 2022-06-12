@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.7.7
+    image: linuxserver/jellyfin:10.8.0
     container_name: jellyfin
     ports:
       - 9696:8096
@@ -45,7 +45,7 @@ services:
       AWS_ENDPOINT: ${BACKUP_S3_ENDPOINT?err}
       AWS_ENDPOINT_PROTO: http
       BACKUP_STOP_CONTAINER_LABEL: jellyfin
-      BACKUP_EXCLUDE_REGEXP: '^/backup/data/metadata'
+      BACKUP_EXCLUDE_REGEXP: '^/backup/data/metadata|^/backup/cache'
     volumes:
       - config:/backup:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
