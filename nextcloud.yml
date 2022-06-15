@@ -109,6 +109,7 @@ services:
   db-backup:
     image: databack/mysql-backup:v0.10.0
     container_name: nextcloud-db-backup
+    restart: unless-stopped
     depends_on:
       - db
     environment:
