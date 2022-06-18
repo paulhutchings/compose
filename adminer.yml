@@ -8,6 +8,14 @@ services:
     networks:
       - adminer_net
       - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 256MiB
+        reservations:
+          cpus: '0.5'
+          memory: 128MiB
 
 networks:
   adminer_net:
