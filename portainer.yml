@@ -15,10 +15,10 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.1'
-          memory: 128M
+          memory: 128MiB
 
 networks:
   portainer-net:

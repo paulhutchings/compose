@@ -39,7 +39,7 @@ services:
           memory: 2G
         reservations:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
 
   db:
     image: mariadb:10.7.3
@@ -66,7 +66,7 @@ services:
           memory: 1G
         reservations:
           cpus: '0.5'
-          memory: 512M
+          memory: 512MiB
 
   redis:
     image: redis:7.0.0
@@ -80,10 +80,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
   collabora:
     image: collabora/code:21.11.4.2.1
@@ -129,10 +129,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
   backup:
     image: offen/docker-volume-backup:v2.17.1
@@ -155,10 +155,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
 networks:
   db-net:

@@ -28,10 +28,10 @@ services:
       resources:
         limits:
           cpus: '4'
-          memory: 4G
+          memory: 4GiB
         reservations:
           cpus: '2'
-          memory: 2G
+          memory: 2GiB
 
   backup:
     image: offen/docker-volume-backup:v2.17.1
@@ -55,10 +55,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
 networks:
   jellyfin-net:

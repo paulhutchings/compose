@@ -20,11 +20,11 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 2G
+          memory: 2GiB
         reservations:
           cpus: '0.5'
-          memory: 1G
-    shm_size: 2G
+          memory: 1GiB
+    shm_size: 2GiB
 
 networks:
   ff-net:

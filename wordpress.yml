@@ -30,10 +30,10 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 2G
+          memory: 2GiB
         reservations:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
 
   db:
     image: mysql:8.0.29
@@ -57,10 +57,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 1G
+          memory: 1GiB
         reservations:
           cpus: '0.5'
-          memory: 512M
+          memory: 512MiB
 
   db-backup:
     image: databack/mysql-backup:v0.10.0
@@ -85,10 +85,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
   backup:
     image: offen/docker-volume-backup:v2.17.1
@@ -111,10 +111,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 512MiB
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 256MiB
 
 networks:
   wp-net:
