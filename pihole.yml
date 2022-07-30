@@ -1,7 +1,7 @@
 services:
   pihole:
     container_name: pihole
-    image: pihole/pihole:2022.05
+    image: pihole/pihole:2022.07.1
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -22,8 +22,15 @@ services:
     dns:
       - 127.0.0.1
     networks:
-      vlan:
-        ipv4_address: ${PIHOLE_IP?err}
+      - pihole-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512MiB
+        reservations:
+          cpus: '0.5'
+          memory: 256MiB
 
 volumes:
   etc-pihole:
@@ -32,14 +39,5 @@ volumes:
     name: 'pihole_etc-dnsmasq.d'
 
 networks:
-  vlan:
-    name: ipvlan
-    driver: ipvlan
-    driver_opts:
-      parent: ${VLAN_INTERFACE?err}
-      ipvlan_mode: l2
-    ipam:
-      config:
-        - subnet: '10.0.1.0/16'
-          ip_range: '10.0.74.0/24'
-          gateway: '10.0.1.1'
+  pihole-net:
+    name: pihole
