@@ -1,7 +1,7 @@
 services:
   traefik:
     container_name: traefik
-    image: traefik:v2.7.0
+    image: traefik:v2.8.1
     ports:
       - 8080:80
       - 8443:443
@@ -9,7 +9,7 @@ services:
     environment:
       TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: 'false'
       TRAEFIK_PROVIDERS_DOCKER: 'true'
-      TRAEFIK_PROVIDERS_DOCKER_NETWORK: ${DOCKER_NET?err}
+      TRAEFIK_PROVIDERS_DOCKER_NETWORK: ${PROXY_NET?err}
       TRAEFIK_API_INSECURE: 'true'
       TRAEFIK_ENTRYPOINTS_HTTP_ADDRESS: ':80'
       TRAEFIK_ENTRYPOINTS_HTTPS_ADDRESS: ':443'
@@ -35,7 +35,7 @@ volumes:
 
 networks:
   proxy-net:
-    name: ${DOCKER_NET?err}
+    name: ${PROXY_NET?err}
     internal: true
   traefik-net:
     name: traefik
