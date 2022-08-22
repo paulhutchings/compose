@@ -38,5 +38,6 @@ networks:
   proxy-net:
     name: ${PROXY_NET?err}
     internal: true
+    external: true
   traefik-net:
     name: traefik
