@@ -10,7 +10,7 @@ services:
       PGID: 1000
     volumes:
       - config:/config
-      - media:/data
+      - media:/data:ro
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
@@ -35,7 +35,7 @@ services:
 
   backup:
     image: offen/docker-volume-backup:v2.17.1
-    container_name: jeyllfin-backup
+    container_name: jellyfin-backup
     restart: unless-stopped
     environment:
       AWS_S3_BUCKET_NAME: backup.docker.data
