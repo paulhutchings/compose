@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.8.4
+    image: linuxserver/jellyfin:10.8.8
     container_name: jellyfin
     ports:
       - 9696:8096
@@ -34,7 +34,7 @@ services:
           memory: 2GiB
 
   backup:
-    image: offen/docker-volume-backup:v2.17.1
+    image: offen/docker-volume-backup:v2
     container_name: jellyfin-backup
     restart: unless-stopped
     environment:
