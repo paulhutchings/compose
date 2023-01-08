@@ -1,7 +1,7 @@
 services:
   firefox:
     container_name: firefox${FF_NUM?err}
-    image: jlesage/firefox:v1.18.0
+    image: jlesage/firefox:v23.01.1
     ports:
       - ${FF_PORT?err}:5800
     volumes:
