@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: nextcloud:24.0.0
+    image: nextcloud:24
     container_name: nextcloud
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
           memory: 512MiB
 
   db:
-    image: mariadb:10.7.3
+    image: mariadb:10
     container_name: nextcloud-db
     restart: unless-stopped
     command:
@@ -69,7 +69,7 @@ services:
           memory: 512MiB
 
   redis:
-    image: redis:7.0.0
+    image: redis:7
     container_name: nextcloud-redis
     restart: unless-stopped
     volumes:
@@ -86,7 +86,7 @@ services:
           memory: 256MiB
 
   collabora:
-    image: collabora/code:21.11.4.2.1
+    image: collabora/code:22.05.9.2.1
     container_name: collabora
     restart: unless-stopped
     ports:
@@ -107,7 +107,7 @@ services:
           memory: 1GiB
 
   db-backup:
-    image: databack/mysql-backup:v0.10.0
+    image: databack/mysql-backup:v0.11.0
     container_name: nextcloud-db-backup
     restart: unless-stopped
     depends_on:
@@ -135,7 +135,7 @@ services:
           memory: 256MiB
 
   backup:
-    image: offen/docker-volume-backup:v2.17.1
+    image: offen/docker-volume-backup:v2
     container_name: nextcloud-backup
     restart: unless-stopped
     environment:
