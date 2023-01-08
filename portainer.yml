@@ -1,7 +1,7 @@
 services:
   portainer:
     container_name: portainer
-    image: portainer/portainer-ce:2.15.1-alpine
+    image: portainer/portainer-ce:2.16.2-alpine
     command: -H unix:///var/run/docker.sock
     restart: always
     ports:
