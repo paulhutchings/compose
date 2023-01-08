@@ -1,6 +1,6 @@
 services:
   makemkv:
-    image: jlesage/makemkv:v1.22.1
+    image: jlesage/makemkv:v1.22.2
     container_name: makemkv${MAKEMKV_NUM?err}
     environment:
       USER_ID: 1000
