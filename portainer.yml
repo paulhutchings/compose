@@ -1,7 +1,7 @@
 services:
   portainer:
     container_name: portainer
-    image: portainer/portainer-ce:2.16.2-alpine
+    image: docker.io/portainer/portainer-ce:2.25.1-alpine
     command: -H unix:///var/run/docker.sock
     restart: always
     ports:
@@ -23,6 +23,7 @@ services:
 networks:
   portainer-net:
     name: portainer
+    internal: true
 
 volumes:
   data:
